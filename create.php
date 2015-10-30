@@ -9,10 +9,7 @@
 		$s->bind_param("s", $z);
 		$s->execute();
 		$s->close();
-		$r = $m->query("SELECT MAX(id) FROM polls");
-		$w = $r->fetch_array();
-		$r->free();
-		$n = $w[0];
+		$n = $m->insert_id;
 		for($i = 0; $i < $c; $i++) {
 			$s = $m->prepare("INSERT INTO options VALUES (?, ?, ?, 0)");
 			$s->bind_param("iis", $n, $i, $o[$i]);
