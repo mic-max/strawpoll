@@ -18,7 +18,7 @@ function d(){
 		b.appendChild(c);
 		b.appendChild(e);
 		document.getElementById("o").appendChild(b);
-		c.addEventListener("input",d,!1);
+		c.addEventListener("input",d,0);
 	}
 }
 window.onload=d();d();
