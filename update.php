@@ -5,7 +5,7 @@
 	$s->execute();
 	$s->bind_result($i, $v);
 	while ($s->fetch())
-		$r .= "$i~$v~";
+		$r .= "$i\n$v\n";
 	echo substr($r, 0, -1);
 	$s->close();
 	$m->close();

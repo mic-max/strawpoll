@@ -30,7 +30,7 @@ b=new XMLHttpRequest;
 setInterval(function(){
 	b.onreadystatechange=function(){
 		if(b.readyState==XMLHttpRequest.DONE&&200==b.status){
-			for(var c=0,d=b.responseText.split("~").map(String),a=1;a<d.length;a+=2)
+			for(var c=0,d=b.responseText.split("\n").map(String),a=1;a<d.length;a+=2)
 				c+=parseInt(d[a]);
 			if(0!=c)
 				for(a=0;a<d.length;a++){
@@ -47,4 +47,4 @@ setInterval(function(){
 	b.send();
 },2E3);
 </script>
-<?php include "footer.php";?>
+<?php include "footer.php";?> 
