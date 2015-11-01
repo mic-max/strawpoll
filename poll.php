@@ -1,7 +1,7 @@
 <?php
-	include "question.php";
+	include "title.php";
 	$s = $m->prepare("SELECT `option` FROM options WHERE poll_id = ?");
-	$s->bind_param("i", $_GET[n]);
+	$s->bind_param("i", $n);
 	$s->execute();
 	$s->bind_result($e);
 	while($s->fetch())
@@ -9,8 +9,8 @@
 	$s->close();
 	$m->close();
 ?>
-			<form action = "vote.php?n=<?php echo $_GET[n];?>" method = "post" autocomplete = "off">
-				<textarea disabled><?php echo $q;?></textarea>
+			<form action = "vote.php?n=<?= $n;?>" method = "post" autocomplete = "off">
+				<textarea disabled><?= $t;?></textarea>
 				<div id = "o">
 <?php
 	$c = count($o);

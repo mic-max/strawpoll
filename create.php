@@ -3,7 +3,7 @@
 		if(isset($_POST["o$i"]) && ($b = trim($_POST["o$i"])) !== "")
 			$o[] = $b;
 	$c = count($o);
-	if($c > 1 && ($z = str_replace(array("\r", "\n"), '', trim($_POST[q]))) !== "") {
+	if($c > 1 && ($z = str_replace(array("\r", "\n"), '', trim($_POST[t]))) !== "") {
 		include "connect.php";
 		$s = $m->prepare("INSERT INTO polls VALUES (NULL, ?)");
 		$s->bind_param("s", $z);

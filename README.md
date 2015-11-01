@@ -1,2 +1,127 @@
 # strawpoll
 An application for creating and voting on polls.
+
+###Commands for building the MySQL strawpoll database
+
+#####Creating the database
+DROP DATABASE strawpoll;
+CREATE DATABASE strawpoll;
+USE strawpoll;
+
+#####Creating the tables with column descriptions
+CREATE TABLE polls (
+	id MEDIUMINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	title VARCHAR(154) NOT NULL
+);
+
+CREATE TABLE options (
+	poll_id MEDIUMINT UNSIGNED NOT NULL,
+	id TINYINT UNSIGNED NOT NULL,
+	`option` VARCHAR(77) NOT NULL,
+	votes SMALLINT UNSIGNED NOT NULL
+);
+
+CREATE TABLE votes (
+	poll_id MEDIUMINT UNSIGNED NOT NULL,
+	ipv4 INT UNSIGNED NOT NULL
+);
+
+#####Inserting data into a poll for testing purposes
+INSERT INTO polls VALUES (1, "What movie should we watch tonight?");
+INSERT INTO options VALUES (1, 0, "Nightcrawler - Jake Gyllenhaal", 14039), (1, 1, "Fury - Brad Pitt", 29411), (1, 2, "American Ultra - Jesse Eisenberg", 5335), (1, 3, "Martian - Matt Damon", 7007);
+
+#####Creating a granted MySQL user
+DROP USER 'strawpoll'@'localhost';
+CREATE USER 'strawpoll'@'localhost' IDENTIFIED BY 'SecretPassword';
+GRANT SELECT, INSERT, UPDATE ON strawpoll.* TO 'strawpoll'@'localhost';
+
+#####Checking if a data type needs to be modified
+SELECT MAX(id) FROM polls; -- Can't be larger than 16777215
+-- ALTER TABLE polls MODIFY COLUMN id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT;
+-- ALTER TABLE options MODIFY COLUMN poll_id INT UNSIGNED NOT NULL;
+-- ALTER TABLE votes MODIFY COLUMN poll_id INT UNSIGNED NOT NULL;
+
+SELECT MAX(votes) FROM options; -- Can't be larger than 65535
+-- ALTER TABLE options MODIFY COLUMN votes MEDIUMINT UNSIGNED NOT NULL;
+
+#####Visual display of the tables
++-------+-----------------------+------+-----+---------+----------------+
+| Field | Type                  | Null | Key | Default | Extra          |
++-------+-----------------------+------+-----+---------+----------------+
+| id    | mediumint(8) unsigned | NO   | PRI | NULL    | auto_increment |
+| title | varchar(154)          | NO   |     | NULL    |                |
++-------+-----------------------+------+-----+---------+----------------+
+
++---------+-----------------------+------+-----+---------+-------+
+| Field   | Type                  | Null | Key | Default | Extra |
++---------+-----------------------+------+-----+---------+-------+
+| poll_id | mediumint(8) unsigned | NO   |     | NULL    |       |
+| id      | tinyint(3) unsigned   | NO   |     | NULL    |       |
+| option  | varchar(77)           | NO   |     | NULL    |       |
+| votes   | smallint(5) unsigned  | NO   |     | NULL    |       |
++---------+-----------------------+------+-----+---------+-------+
+
++---------+-----------------------+------+-----+---------+-------+
+| Field   | Type                  | Null | Key | Default | Extra |
++---------+-----------------------+------+-----+---------+-------+
+| poll_id | mediumint(8) unsigned | NO   |     | NULL    |       |
+| ipv4    | int(10) unsigned      | NO   |     | NULL    |       |
++---------+-----------------------+------+-----+---------+-------+
+
+###Enabling  rules for apache mod_rewrite
+
+$ sudo nano /etc/apache2/sites-available/000-default.conf
+<Directory /var/www/html/strawpoll/>
+	Allow From All
+	RewriteEngine On
+	RewriteRule ^([0-9]+)\/?$ poll.php?n=$1
+	RewriteRule ^([0-9]+)r\/?$ results.php?n=$1
+	RewriteRule ^([0-9]+)u\/?$ update.php?n=$1 [L]
+</Directory>
+
+###Variable Dictionary:
+
+#####php
+	$b   = trimmed option text /!/
+	$c   = count of options of a poll
+	$e   = temp variable storing option text /!/
+	$f   = temp variable storing votes /!/
+	$i   = index variable for loops
+	$m   = mysqli database connection
+	$n   = number of the current poll
+	$o[] = options' text of a poll
+	$p   = percent of votes - e.g. $v[i] / $q
+	$q   = quantity of votes of a poll
+	$r   = response from update script
+	$s   = statement prepared by mysqli
+	$t   = title of a poll
+	$v[] = votes of a poll
+	$z   = trimmed, replaced /r & /n title text /!/
+
+#####javascript
+	Coming Soon
+
+#####html & css
+	i#   = disabled text input for option text - # represents a number [0, 15]
+	m#   = meter showing amount of votes - # represents a number [0, 15]
+	o    = the group of radio buttons returned value from voting
+	o#   = a text input's name for inputting a option - # represents a number [0, 15]
+	#o   = holds all form's options
+	p    = paragraph tag showing # botes (#%)
+	q    = disabled submit button showing total votes
+	.r   = float right
+	t    = textarea's name for inputting a title
+	v    = submit's name for voting
+
+###FAQ:
+
+######Q: Why not just use *coherant variable names* instead of having a *look-up table*?
+A: **PHP** is an *interpreted language*, therefore a smaller file will take *less time to parse*.
+
+// should store option text data to an array only once!
+// update should only return votes, unsorted : sorted by option id
+// sort by votes in this function in javascript
+// maybe set a boolean in the polls table that shows whether or not the
+	//votes should get updated by if the polls havent changed?
+// only update using javascript, no php (other than update script)
+	//maybe a do while loop so it updates on load and while(the total votes has changed)
