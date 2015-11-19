@@ -18,6 +18,6 @@ setInterval(function() {
 				}
 		}
 	};
-	b.open("GET", n + 'u', true);
+	b.open("GET", "update.php?n=" + n, true);
 	b.send();
 }, 3E3);

@@ -16,4 +16,4 @@ function d() {
 		c.addEventListener("input", d, false);
 	}
 }
-window.onload = d();d();
+window.onload = d();d() ;

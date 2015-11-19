@@ -1,23 +1,24 @@
 *{margin:0 auto;padding:0;font-family:monospace}
 body{width:700px;font-size:12px;background:url(img/noisy_net.png)}
 a{color:inherit;text-decoration:none}
-header{margin:20px 0;text-align:center;font-size:52px}
+header{text-align:center;font-size:52px}
+header, footer{padding:26px 0}
 header,footer,input[type=submit]{color:#39c}
 main{display:block;border-radius:12px;padding-bottom:26px;background:url(img/paper.png)}
 div{height:26px;clear:left;border-bottom:2px solid rgba(51,153,204,.4)}
 #o{margin-bottom:26px;height:auto;border:0;border-top:2px solid rgba(51,153,204,.4)}
 span{width:70px;float:left;text-align:center}
-span,div input,textarea{line-height:26px;font-size:12px}
+span,div input,textarea{font-size:12px}
+span, div>input{position:relative;top:50%;transform:translateY(-50%)}
 textarea,div input{width:620px}
 textarea,input{border:0;background:transparent}
 *:focus{outline:0}
 div p{margin:5px 0 0 10px;float:left}
-textarea{margin-left:70px;height:52px;resize:none}
-span input{width:auto;vertical-align:middle}
+textarea{margin-left:70px;line-height:26px;height:52px;resize:none;overflow:auto}
+span input{width:auto}
 :disabled{color:#000}
-input[type=submit]{padding:0 26px;font-size:26px}
+input[type=submit]{margin:0 26px;font-size:26px}
 input[type=submit]:hover{color:#069;cursor:pointer}
-footer{padding:26px 0}
 footer a{color:#999}
 footer a:hover{color:#ccc}
 .r{float:right}
