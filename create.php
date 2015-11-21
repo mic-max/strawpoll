@@ -1,7 +1,8 @@
 <?php
 	for($i = 0; $i < 16; $i++)
-		if(isset($_POST["o$i"]) && ($b = trim($_POST["o$i"])) !== "")
-			$o[] = $b;
+-		if(isset($_POST["o$i"]) && ($b = trim($_POST["o$i"])) !== "")
+-			$o[] = $b;
+	
 	$c = count($o);
 	if($c > 1 && ($z = str_replace(array("\r", "\n"), "", trim($_POST[t]))) !== "") {
 		include "connect.php";
@@ -10,9 +11,9 @@
 		$s->execute();
 		$s->close();
 		$n = $m->insert_id;
-		for($i = 0; $i < $c; $i++) {
+		foreach ($o as $option) {
 			$s = $m->prepare("INSERT INTO options VALUES (?, ?, ?, 0)");
-			$s->bind_param("iis", $n, $i, $o[$i]);
+			$s->bind_param("iis", $n, $i, trim($option));
 			$s->execute();
 			$s->close();
 		}
