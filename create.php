@@ -1,7 +1,6 @@
 <?php
-	for($i = 0; $i < 16; $i++)
-		if(isset($_POST["o$i"]) && ($b = trim($_POST["o$i"])) !== "")
-			$o[] = $b;
+	$o = array_slice($_POST, 1, 16);
+	
 	$c = count($o);
 	if($c > 1 && ($z = str_replace(array("\r", "\n"), "", trim($_POST[t]))) !== "") {
 		include "connect.php";
