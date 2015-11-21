@@ -1,7 +1,9 @@
 <?php
-	if(isset($_POST["o$i"]) {
-		$b = (trim($_POST["o$i"]) !== "") ? $_POST["o$i"] : false;
-		if ($b) $o[] = $b;
+	for($i = 0; $i < 16; $i++) {
+		if(isset($_POST["o$i"]) {
+			$b = (trim($_POST["o$i"]) !== "") ? $_POST["o$i"] : false;
+			if ($b) $o[] = $b;
+		}
 	}
 	
 	$c = count($o);
